@@ -15,6 +15,41 @@ class App extends React.Component {
     }
   }
 
+  filtering = (animalType) => {
+    if (animalType === undefined) {
+      let tempVar = '/api/pets'
+      fetch(tempVar)
+      .then(resource => resource.json())
+      .then((data) => {
+        this.setState({
+          ...this.state,
+          pets: data
+        })
+      })
+    } else {
+      let tempVar = `/api/pets?type=${animalType}`
+      fetch(tempVar)
+      .then(resource => resource.json())
+      .then((data) => {
+        this.setState({
+          ...this.state,
+          pets: data
+        })
+      })
+    }
+    this.setState({
+      ...this.state,
+      filters: {
+        type: animalType
+      }
+    })
+
+  }
+
+  // handlePropPassing = (petArray) => {
+  //   return petArray
+  // }
+
   render() {
     return (
       <div className="ui container">
@@ -24,10 +59,10 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters />
+              <Filters handleFiltering={this.filtering}/>
             </div>
             <div className="twelve wide column">
-              <PetBrowser />
+              <PetBrowser petArray={this.state.pets}/>
             </div>
           </div>
         </div>
