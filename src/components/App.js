@@ -16,7 +16,7 @@ class App extends React.Component {
   }
 
   filtering = (animalType) => {
-    if (animalType === undefined) {
+    if (animalType === 'all' || animalType === '') {
       let tempVar = '/api/pets'
       fetch(tempVar)
       .then(resource => resource.json())
